@@ -11,11 +11,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class FakeObject1 {
-
     private String field1;
     private int field2;
     private BigDecimal field3;
     private LocalDate field4;
     private LocalDateTime field5;
-
 }

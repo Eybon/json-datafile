@@ -1,7 +1,5 @@
 package fr.forge.json.datafile;
 
-import fr.forge.json.datafile.datafile.JsonDataFile;
-import fr.forge.json.datafile.datafile.JsonDataFileException;
 import fr.forge.json.datafile.fake.FakeObject1;
 import org.junit.jupiter.api.Test;
 
@@ -16,10 +14,10 @@ import java.time.Month;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class JsonDataFileTest {
+public class JsonDatabaseTest {
 
     @Test
-    void test_givenFakeObject1_whenSaveObject_thenJsonDataFile() throws JsonDataFileException {
+    void test_givenFakeObject1_whenSaveObject_thenJsonDataFile() throws JsonDatabaseException {
         // Given
         FakeObject1 input = FakeObject1.builder()
                 .field1("string")
@@ -30,8 +28,8 @@ public class JsonDataFileTest {
                 .build();
 
         // When
-        var jsonDataFile = new JsonDataFile<>(FakeObject1.class, "src/test/resources/output/fake_object_1.json");
-        jsonDataFile.saveObject(input);
+        var jsonDataFile = new JsonDatabase<>(FakeObject1.class, "src/test/resources/output/fake_object_1.json");
+        jsonDataFile.save(input);
 
         // Then
         Path result = Paths.get("src/test/resources/output/fake_object_1.json");
@@ -42,9 +40,9 @@ public class JsonDataFileTest {
     @Test
     void test_givenFakeObject1_whenSaveObjectWithWrongPath_thenJsonDataFileException() {
         // When
-        var jsonDataFile = new JsonDataFile<>(FakeObject1.class, "src/test/wrong_path/fake_object_1.json");
-        Exception resultException = assertThrows(JsonDataFileException.class, () -> {
-            jsonDataFile.saveObject(FakeObject1.builder().build());
+        var jsonDataFile = new JsonDatabase<>(FakeObject1.class, "src/test/wrong_path/fake_object_1.json");
+        Exception resultException = assertThrows(JsonDatabaseException.class, () -> {
+            jsonDataFile.save(FakeObject1.builder().build());
         });
 
         // Then
@@ -53,7 +51,7 @@ public class JsonDataFileTest {
     }
 
     @Test
-    void test_givenFakeObject1_whenLoadObject_thenGetObject() throws JsonDataFileException {
+    void test_givenFakeObject1_whenLoadObject_thenGetObject() throws JsonDatabaseException {
         // Given
         FakeObject1 output = FakeObject1.builder()
                 .field1("string")
@@ -64,8 +62,8 @@ public class JsonDataFileTest {
                 .build();
 
         // When
-        var jsonDataFile = new JsonDataFile<>(FakeObject1.class, "src/test/resources/output/fake_object_1.json");
-        FakeObject1 result = jsonDataFile.loadObject();
+        var jsonDataFile = new JsonDatabase<>(FakeObject1.class, "src/test/resources/output/fake_object_1.json");
+        FakeObject1 result = jsonDataFile.load();
 
         // Then
         assertNotNull(result);
@@ -75,8 +73,8 @@ public class JsonDataFileTest {
     @Test
     void test_givenFakeObject1_whenLoadObjectWithWrongPath_thenJsonDataFileException() {
         // When
-        var jsonDataFile = new JsonDataFile<>(FakeObject1.class, "src/test/wrong_path/fake_object_1.json");
-        Exception resultException = assertThrows(JsonDataFileException.class, jsonDataFile::loadObject);
+        var jsonDataFile = new JsonDatabase<>(FakeObject1.class, "src/test/wrong_path/fake_object_1.json");
+        Exception resultException = assertThrows(JsonDatabaseException.class, jsonDataFile::load);
 
         // Then
         assertNotNull(resultException);
@@ -84,7 +82,7 @@ public class JsonDataFileTest {
     }
 
     @Test
-    void test_givenFakeObject1_whenSaveAndLoadObject_thenJsonDataFileCreateAndLoad() throws JsonDataFileException {
+    void test_givenFakeObject1_whenSaveAndLoadObject_thenJsonDataFileCreateAndLoad() throws JsonDatabaseException {
         // Given
         FakeObject1 input = FakeObject1.builder()
                 .field1("string")
@@ -95,9 +93,9 @@ public class JsonDataFileTest {
                 .build();
 
         // When
-        var jsonDataFile = new JsonDataFile<>(FakeObject1.class, "src/test/resources/fake_object_1_full.json");
-        jsonDataFile.saveObject(input);
-        FakeObject1 result = jsonDataFile.loadObject();
+        var jsonDataFile = new JsonDatabase<>(FakeObject1.class, "src/test/resources/fake_object_1_full.json");
+        jsonDataFile.save(input);
+        FakeObject1 result = jsonDataFile.load();
 
         // Then
         Path fileResult = Paths.get("src/test/resources/fake_object_1_full.json");

@@ -1,19 +1,23 @@
-package fr.forge.json.datafile.datafile;
+package fr.forge.json.datafile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.util.stream.Collectors;
 
-public class JsonDataFile<T> {
+public class JsonDatabase<T> implements Database<T>{
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(JsonDatabase.class.getSimpleName());
 
     private final ObjectMapper mapper;
     private final String fileName;
     private Class<T> type;
 
-    public JsonDataFile(Class<T> type, String fileName) {
+    public JsonDatabase(Class<T> type, String fileName) {
         this.type = type;
         this.fileName = fileName;
         this.mapper = new ObjectMapper()
@@ -21,11 +25,14 @@ public class JsonDataFile<T> {
                 .enable(SerializationFeature.INDENT_OUTPUT);
     }
 
-    public void saveObject(T objectToSave) throws JsonDataFileException {
+    public void save(T objectToSave) throws JsonDatabaseException {
+        LOGGER.info("{}<{}> - Save value of {}", this.getClass().getSimpleName(), type.getSimpleName(), type.getSimpleName());
         try {
             this.saveFile(this.mapper.writeValueAsString(objectToSave));
         } catch (IOException e) {
-            throw new JsonDataFileException(e);
+            LOGGER.error("{}<{}> - Fail to save value of {}", this.getClass().getSimpleName(), type.getSimpleName(), type.getSimpleName());
+            LOGGER.error(e.getMessage());
+            throw new JsonDatabaseException(e);
         }
     }
 
@@ -36,14 +43,17 @@ public class JsonDataFile<T> {
         }
     }
 
-    public T loadObject() throws JsonDataFileException {
+    public T load() throws JsonDatabaseException {
+        LOGGER.info("{}<{}> - Load value of {}", this.getClass().getSimpleName(), type.getSimpleName(), type.getSimpleName());
         try {
             return this.mapper.readValue(
                     this.loadFile(this.fileName),
                     this.type
             );
         } catch (IOException e) {
-            throw new JsonDataFileException(e);
+            LOGGER.error("{}<{}> - Fail to load value of {}", this.getClass().getSimpleName(), type.getSimpleName(), type.getSimpleName());
+            LOGGER.error(e.getMessage());
+            throw new JsonDatabaseException(e);
         }
     }
 

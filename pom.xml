@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>fr.forge.lib</groupId>
     <artifactId>json-datafile</artifactId>
-    <version>1.1-SNAPSHOT</version>
+    <version>2.0.0</version>
 
     <properties>
         <!-- Build properties -->
@@ -15,20 +15,20 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- Dependencies Version -->
-        <lombok.version>1.18.24</lombok.version>
-        <jackson.version>2.15.1</jackson.version>
+        <slf4j.version>2.0.7</slf4j.version>
+        <jackson.version>2.15.2</jackson.version>
 
         <!-- Tests Dependencies Version -->
-        <junit.version>5.9.2</junit.version>
+        <lombok.version>1.18.28</lombok.version>
+        <junit.version>5.9.3</junit.version>
     </properties>
 
     <dependencies>
-        <!-- Lombok dependencies -->
+        <!-- Slf4j dependencies -->
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
-            <scope>provided</scope>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
         </dependency>
 
         <!-- Json serializer dependencies -->
@@ -44,6 +44,13 @@
         </dependency>
 
         <!-- Junit dependencies -->
+        <!-- Lombok dependencies -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
