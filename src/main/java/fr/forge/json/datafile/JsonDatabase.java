@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 public class JsonDatabase<T> implements Database<T>{
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JsonDatabase.class.getSimpleName());
-
     private final ObjectMapper mapper;
     private final String fileName;
     private Class<T> type;

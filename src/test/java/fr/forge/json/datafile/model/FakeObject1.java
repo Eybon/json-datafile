@@ -1,4 +1,4 @@
-package fr.forge.json.datafile.fake;
+package fr.forge.json.datafile.model;
 
 import lombok.*;
 

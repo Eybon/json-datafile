@@ -1,6 +1,8 @@
-package fr.forge.json.datafile;
+package fr.forge.json.datafile.java;
 
-import fr.forge.json.datafile.fake.FakeObject1;
+import fr.forge.json.datafile.JsonDatabase;
+import fr.forge.json.datafile.JsonDatabaseException;
+import fr.forge.json.datafile.model.FakeObject1;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
@@ -28,11 +30,11 @@ public class JsonDatabaseTest {
                 .build();
 
         // When
-        var jsonDataFile = new JsonDatabase<>(FakeObject1.class, "src/test/resources/output/fake_object_1.json");
+        var jsonDataFile = new JsonDatabase<>(FakeObject1.class, "src/test/resources/java/output/fake_object_1.json");
         jsonDataFile.save(input);
 
         // Then
-        Path result = Paths.get("src/test/resources/output/fake_object_1.json");
+        Path result = Paths.get("src/test/resources/java/output/fake_object_1.json");
         assertTrue(Files.exists(result));
         assertTrue(Files.isRegularFile(result));
     }
@@ -62,7 +64,7 @@ public class JsonDatabaseTest {
                 .build();
 
         // When
-        var jsonDataFile = new JsonDatabase<>(FakeObject1.class, "src/test/resources/output/fake_object_1.json");
+        var jsonDataFile = new JsonDatabase<>(FakeObject1.class, "src/test/resources/java/output/fake_object_1.json");
         FakeObject1 result = jsonDataFile.load();
 
         // Then
@@ -93,12 +95,12 @@ public class JsonDatabaseTest {
                 .build();
 
         // When
-        var jsonDataFile = new JsonDatabase<>(FakeObject1.class, "src/test/resources/fake_object_1_full.json");
+        var jsonDataFile = new JsonDatabase<>(FakeObject1.class, "src/test/resources/java/fake_object_1_full.json");
         jsonDataFile.save(input);
         FakeObject1 result = jsonDataFile.load();
 
         // Then
-        Path fileResult = Paths.get("src/test/resources/fake_object_1_full.json");
+        Path fileResult = Paths.get("src/test/resources/java/fake_object_1_full.json");
         assertTrue(Files.exists(fileResult));
         assertTrue(Files.isRegularFile(fileResult));
         assertNotNull(result);
