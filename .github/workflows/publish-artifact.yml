@@ -1,0 +1,28 @@
+name: Publish package to GitHub Packages
+on:
+  release:
+    types: [created]
+
+env:
+  GITHUB_BRANCH: ${{ github.ref_name }}
+
+jobs:
+  maven-publish-artifact:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: SetUp Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: '18'
+          distribution: 'temurin'
+      - name: Maven release version
+        run: mvn versions:set -DnewVersion=${{ env.GITHUB_BRANCH }}
+      - name: Maven publish package
+        run: mvn --batch-mode deploy
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
