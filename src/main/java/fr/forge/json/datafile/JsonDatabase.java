@@ -1,5 +1,7 @@
 package fr.forge.json.datafile;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -21,7 +23,8 @@ public class JsonDatabase<T> implements Database<T>{
         this.fileName = fileName;
         this.mapper = new ObjectMapper()
                 .registerModule(new JavaTimeModule())
-                .enable(SerializationFeature.INDENT_OUTPUT);
+                .enable(SerializationFeature.INDENT_OUTPUT)
+                .setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);;
     }
 
     public void save(T objectToSave) throws JsonDatabaseException {
